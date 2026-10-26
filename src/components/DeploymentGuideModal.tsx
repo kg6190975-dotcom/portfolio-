@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Check, Copy, ExternalLink, AlertTriangle, Rocket, GitBranch, Settings, CheckCircle2 } from 'lucide-react';
+import { X, Check, Copy, AlertTriangle, Rocket, GitBranch, Settings, CheckCircle2 } from 'lucide-react';
 import { ThemeMode } from '../types/portfolio';
 
 interface DeploymentGuideModalProps {
@@ -23,9 +23,9 @@ export const DeploymentGuideModal: React.FC<DeploymentGuideModalProps> = ({
     setTimeout(() => setCopiedIndex(null), 2000);
   };
 
-  const gitCommands = `# 1. Commit and push your latest code to GitHub:
+  const gitCommands = `# Push the fixes to GitHub:
 git add .
-git commit -m "Configure GitHub Actions deployment and relative base paths"
+git commit -m "Fix GitHub Actions lockfile & deploy workflow"
 git push origin main`;
 
   return (
@@ -56,57 +56,36 @@ git push origin main`;
         {/* Header */}
         <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-red-400 mb-2 font-semibold">
           <Rocket className="w-4 h-4" />
-          <span>Fix GitHub Pages 404 & Deployment Guide</span>
+          <span>GitHub Actions Deployment Fix</span>
         </div>
 
         <h2 id="deploy-guide-title" className="text-xl sm:text-2xl font-serif font-bold">
-          Resolving the "404 There isn't a GitHub Pages site here"
+          Fixing the GitHub Actions Build Failure
         </h2>
 
-        {/* Cause Banner */}
-        <div className="mt-4 p-4 rounded-2xl border border-yellow-500/30 bg-yellow-500/10 flex items-start gap-3">
-          <AlertTriangle className="w-5 h-5 text-yellow-400 mt-0.5 shrink-0" />
+        {/* Resolved Error Banner */}
+        <div className="mt-4 p-4 rounded-2xl border border-emerald-500/40 bg-emerald-500/10 flex items-start gap-3">
+          <CheckCircle2 className="w-5 h-5 text-emerald-400 mt-0.5 shrink-0" />
           <div className="text-xs sm:text-sm text-slate-300">
-            <strong className="text-yellow-400 font-semibold block mb-0.5">Why this 404 happens:</strong>
-            GitHub Pages requires your repository's Pages setting to be activated, and Vite needs relative asset paths (<code className="text-yellow-300 font-mono">base: './'</code>), which we have now configured!
+            <strong className="text-emerald-400 font-semibold block mb-0.5">
+              Root Cause Diagnosed & Fixed in Codebase:
+            </strong>
+            The workflow failed at <code className="text-white font-mono">Setup Node</code> because <code className="text-red-300 font-mono">cache: "npm"</code> required a committed <code className="text-white font-mono">package-lock.json</code>. We generated the lockfile, created <code className="text-white font-mono">.npmrc</code> with legacy peer deps, and updated <code className="text-white font-mono">.github/workflows/deploy.yml</code> to run smoothly.
           </div>
         </div>
 
         {/* Steps */}
         <div className="mt-6 space-y-5 text-xs sm:text-sm">
-          {/* Step 1: Enable GitHub Actions in Settings */}
-          <div className="p-5 rounded-2xl border border-slate-800 bg-[#0B0F19]/70">
-            <div className="flex items-center gap-2 font-serif font-bold text-base text-blue-400 mb-2">
-              <Settings className="w-4 h-4" />
-              <span>Step 1: Enable GitHub Pages in your Repository</span>
-            </div>
-            <ol className="list-decimal list-inside space-y-2 text-slate-300">
-              <li>Open your repository on GitHub (<code className="font-mono text-slate-200">github.com/username/repository</code>).</li>
-              <li>Click the <strong className="text-white">Settings</strong> tab at the top.</li>
-              <li>On the left sidebar, click <strong className="text-white">Pages</strong>.</li>
-              <li>
-                Under <strong className="text-yellow-400">Build and deployment &gt; Source</strong>, select{' '}
-                <span className="px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 font-semibold border border-blue-500/40">
-                  GitHub Actions
-                </span>
-                .
-              </li>
-            </ol>
-            <p className="mt-2 text-slate-400 text-xs">
-              Because we created <code className="text-blue-300 font-mono">.github/workflows/deploy.yml</code>, GitHub will now automatically build and publish your site on every push!
-            </p>
-          </div>
-
-          {/* Step 2: Push changes */}
+          {/* Step 1: Push fixes */}
           <div className="p-5 rounded-2xl border border-slate-800 bg-[#0B0F19]/70">
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2 font-serif font-bold text-base text-red-400">
                 <GitBranch className="w-4 h-4" />
-                <span>Step 2: Push the new build configuration</span>
+                <span>Step 1: Push the Fixed Files to GitHub</span>
               </div>
               <button
                 onClick={() => copyCode(gitCommands, 1)}
-                className="flex items-center gap-1 text-xs font-mono text-slate-400 hover:text-white transition-colors"
+                className="flex items-center gap-1 text-xs font-mono text-slate-400 hover:text-white transition-colors cursor-pointer"
               >
                 {copiedIndex === 1 ? (
                   <span className="text-emerald-400 flex items-center gap-1">
@@ -124,24 +103,48 @@ git push origin main`;
             </pre>
           </div>
 
-          {/* Step 3: Verified configuration checklist */}
+          {/* Step 2: Ensure GitHub Actions Source is selected */}
+          <div className="p-5 rounded-2xl border border-slate-800 bg-[#0B0F19]/70">
+            <div className="flex items-center gap-2 font-serif font-bold text-base text-blue-400 mb-2">
+              <Settings className="w-4 h-4" />
+              <span>Step 2: Confirm Pages Setting in GitHub</span>
+            </div>
+            <ol className="list-decimal list-inside space-y-2 text-slate-300">
+              <li>Open your repository on GitHub (<code className="font-mono text-slate-200">github.com/username/repository</code>).</li>
+              <li>Click the <strong className="text-white">Settings</strong> tab at the top.</li>
+              <li>On the left sidebar, click <strong className="text-white">Pages</strong>.</li>
+              <li>
+                Under <strong className="text-yellow-400">Build and deployment &gt; Source</strong>, ensure{' '}
+                <span className="px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 font-semibold border border-blue-500/40">
+                  GitHub Actions
+                </span>{' '}
+                is selected.
+              </li>
+            </ol>
+          </div>
+
+          {/* Step 3: Verified checklist */}
           <div className="p-5 rounded-2xl border border-slate-800 bg-[#0B0F19]/70">
             <div className="flex items-center gap-2 font-serif font-bold text-base text-yellow-400 mb-2">
               <CheckCircle2 className="w-4 h-4" />
-              <span>What We Fixed in the Codebase</span>
+              <span>Fixes Applied in Workspace</span>
             </div>
             <ul className="space-y-1.5 text-xs text-slate-300">
               <li className="flex items-center gap-2">
                 <Check className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Configured <code className="text-blue-300 font-mono">base: './'</code> in <code className="text-slate-200 font-mono">vite.config.ts</code> to prevent subpath 404 asset errors.</span>
+                <span>Removed strict lockfile caching dependency from <code className="text-slate-200 font-mono">.github/workflows/deploy.yml</code>.</span>
               </li>
               <li className="flex items-center gap-2">
                 <Check className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Created automated GitHub Actions pipeline in <code className="text-slate-200 font-mono">.github/workflows/deploy.yml</code>.</span>
+                <span>Generated and validated <code className="text-blue-300 font-mono">package-lock.json</code> and <code className="text-blue-300 font-mono">.npmrc</code>.</span>
               </li>
               <li className="flex items-center gap-2">
                 <Check className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>Verified <code className="text-yellow-300 font-mono">npm run build</code> builds into <code className="text-slate-200 font-mono">dist/</code> with zero errors.</span>
+                <span>Configured <code className="text-blue-300 font-mono">base: './'</code> in <code className="text-slate-200 font-mono">vite.config.ts</code> for relative assets.</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span>Verified <code className="text-yellow-300 font-mono">npm run build</code> builds cleanly with exit code 0.</span>
               </li>
             </ul>
           </div>
@@ -150,13 +153,13 @@ git push origin main`;
         {/* Footer */}
         <div className="mt-6 flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-slate-800">
           <span className="text-xs text-slate-400 font-mono">
-            Once GitHub Actions finishes (~1 min), your site will be live!
+            Pushing the commit will re-trigger the workflow and deploy successfully!
           </span>
           <button
             onClick={onClose}
-            className="px-5 py-2 text-xs font-mono uppercase tracking-wider rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold transition-colors"
+            className="px-5 py-2 text-xs font-mono uppercase tracking-wider rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-semibold transition-colors cursor-pointer"
           >
-            Got it, Let's Deploy
+            Understood
           </button>
         </div>
       </div>
