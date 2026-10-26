@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'motion/react';
 import { EducationItem, CertificationItem, Language, ThemeMode } from '../types/portfolio';
 import { uiTranslations } from '../data/portfolioData';
 import { GraduationCap, Award, CheckCircle, Calendar, School } from 'lucide-react';
@@ -27,7 +28,13 @@ export const EducationSection: React.FC<EducationSectionProps> = ({
   return (
     <section id="education" className="py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto border-t border-slate-800/60">
       {/* Header */}
-      <div className="flex flex-col items-start max-w-2xl text-left mb-12">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-40px' }}
+        transition={{ duration: 0.5 }}
+        className="flex flex-col items-start max-w-2xl text-left mb-12"
+      >
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-blue-500" />
           <span className="text-xs uppercase font-mono tracking-[0.25em] text-blue-400">
@@ -40,7 +47,7 @@ export const EducationSection: React.FC<EducationSectionProps> = ({
         <p className="mt-2 text-sm text-slate-400 font-sans">
           {t.subtitle}
         </p>
-      </div>
+      </motion.div>
 
       {/* Main Degrees Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left mb-14">
@@ -51,8 +58,13 @@ export const EducationSection: React.FC<EducationSectionProps> = ({
           const cardHover = isFirst ? 'hover:border-blue-500/50' : 'hover:border-red-500/50';
 
           return (
-            <div
+            <motion.div
               key={edu.id}
+              initial={{ opacity: 0, y: 25 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.5, delay: idx * 0.1 }}
+              whileHover={{ y: -4, transition: { duration: 0.2 } }}
               className={`p-6 sm:p-7 rounded-3xl border transition-all duration-200 flex flex-col justify-between ${cardHover} ${
                 theme === 'dark'
                   ? 'border-slate-800 bg-[#111827]/80'
@@ -102,13 +114,19 @@ export const EducationSection: React.FC<EducationSectionProps> = ({
                   Accredited
                 </span>
               </div>
-            </div>
+            </motion.div>
           );
         })}
       </div>
 
       {/* Structured Training & Development Credentials */}
-      <div className="text-left">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-30px' }}
+        transition={{ duration: 0.5 }}
+        className="text-left"
+      >
         <h3 className="text-lg font-serif font-bold text-[#F8FAFC] dark:text-[#F8FAFC] text-[#0F172A] mb-4 flex items-center gap-2">
           <Award className="w-5 h-5 text-yellow-400" />
           <span>{t.trainingTitle}</span>
@@ -118,8 +136,13 @@ export const EducationSection: React.FC<EducationSectionProps> = ({
           {certifications.map((cert, cIdx) => {
             const style = certStyles[cIdx % certStyles.length];
             return (
-              <div
+              <motion.div
                 key={cert.id}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-20px' }}
+                transition={{ duration: 0.4, delay: cIdx * 0.08 }}
+                whileHover={{ y: -3, transition: { duration: 0.2 } }}
                 className={`p-5 rounded-2xl border transition-all ${style.border} ${
                   theme === 'dark'
                     ? 'bg-[#111827]/60 hover:bg-[#162032]'
@@ -138,11 +161,11 @@ export const EducationSection: React.FC<EducationSectionProps> = ({
                 <p className="text-xs text-slate-400 dark:text-slate-400 text-slate-600 mt-2 font-sans leading-relaxed">
                   {cert.description[lang]}
                 </p>
-              </div>
+              </motion.div>
             );
           })}
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };

@@ -11,6 +11,7 @@ interface NavbarProps {
   theme: ThemeMode;
   onToggleTheme: () => void;
   onOpenResume: () => void;
+  onOpenDeployGuide: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -21,6 +22,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   theme,
   onToggleTheme,
   onOpenResume,
+  onOpenDeployGuide,
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -99,6 +101,15 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {/* Right Controls: Red/Blue/Yellow badges, Theme, Lang, Resume */}
           <div className="flex items-center gap-2 shrink-0">
+            {/* Deploy Guide button */}
+            <button
+              onClick={onOpenDeployGuide}
+              className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full border border-red-500/40 text-red-300 bg-red-500/10 hover:bg-red-500/20 hover:border-red-400 transition-all font-mono"
+              title="Fix GitHub Pages 404 & Deployment"
+            >
+              <span>Deploy (404 Fix)</span>
+            </button>
+
             {/* Quick Resume Modal trigger */}
             <button
               onClick={onOpenResume}
@@ -193,9 +204,19 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
+                onOpenDeployGuide();
+              }}
+              className="mt-4 flex items-center justify-center gap-2 py-3 rounded-xl border border-red-500 text-red-300 font-medium text-sm bg-red-500/10"
+            >
+              <span>Deploy Guide (Fix GitHub Pages 404)</span>
+            </button>
+
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
                 onOpenResume();
               }}
-              className="mt-4 flex items-center justify-center gap-2 py-3 rounded-xl border border-blue-500 text-blue-400 font-medium text-sm bg-blue-500/10"
+              className="flex items-center justify-center gap-2 py-3 rounded-xl border border-blue-500 text-blue-400 font-medium text-sm bg-blue-500/10"
             >
               <FileText className="w-4 h-4" />
               <span>View Resume (PDF)</span>

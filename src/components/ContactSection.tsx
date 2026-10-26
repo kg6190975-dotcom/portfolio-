@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'motion/react';
 import { Mail, Linkedin, Phone, MapPin, Copy, Check, ExternalLink } from 'lucide-react';
 import { PortfolioProfile, Language, ThemeMode } from '../types/portfolio';
 import { uiTranslations } from '../data/portfolioData';
@@ -25,7 +26,13 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile, lang, t
     <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto border-t border-slate-800/60">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start text-left">
         {/* Left Column: Heading and Context */}
-        <div className="lg:col-span-5">
+        <motion.div
+          initial={{ opacity: 0, x: -25 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.5 }}
+          className="lg:col-span-5"
+        >
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-red-500" />
             <span className="text-xs uppercase font-mono tracking-[0.25em] text-red-400">
@@ -39,7 +46,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile, lang, t
             {t.subtitle}
           </p>
 
-          <div className="mt-8 p-5 rounded-2xl border border-yellow-400/30 bg-yellow-400/5">
+          <motion.div
+            whileHover={{ scale: 1.02 }}
+            className="mt-8 p-5 rounded-2xl border border-yellow-400/30 bg-yellow-400/5"
+          >
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-yellow-400 animate-pulse" />
               <span className="text-xs font-mono uppercase tracking-wider text-yellow-400 font-semibold">
@@ -52,13 +62,18 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile, lang, t
             <p className="text-xs text-slate-400 mt-1 font-sans">
               Open to academic internships, project collaborations, and corporate trainee roles.
             </p>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* Right Column: Direct Contact Cards (Red, Blue, Yellow) */}
         <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* Email in Crimson Red */}
-          <div
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-30px' }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+            whileHover={{ y: -4, transition: { duration: 0.2 } }}
             className={`p-6 rounded-2xl border transition-all hover:border-red-500/60 ${
               theme === 'dark'
                 ? 'border-slate-800 bg-[#111827]/80'
@@ -71,11 +86,11 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile, lang, t
               </div>
               <button
                 onClick={() => copyToClipboard(profile.email, 'email')}
-                className="text-xs font-mono text-slate-400 hover:text-red-400 flex items-center gap-1 transition-colors"
+                className="text-xs font-mono text-slate-400 hover:text-red-400 flex items-center gap-1 transition-colors cursor-pointer"
                 title={t.copyTooltip}
               >
                 {copiedField === 'email' ? (
-                  <span className="text-red-400 flex items-center gap-1">
+                  <span className="text-red-400 flex items-center gap-1 font-semibold">
                     <Check className="w-3.5 h-3.5" />
                     Copied
                   </span>
@@ -96,10 +111,15 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile, lang, t
             >
               {profile.email}
             </a>
-          </div>
+          </motion.div>
 
           {/* LinkedIn in Electric Blue */}
-          <div
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-30px' }}
+            transition={{ duration: 0.4, delay: 0.2 }}
+            whileHover={{ y: -4, transition: { duration: 0.2 } }}
             className={`p-6 rounded-2xl border transition-all hover:border-blue-500/60 ${
               theme === 'dark'
                 ? 'border-slate-800 bg-[#111827]/80'
@@ -131,10 +151,15 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile, lang, t
             >
               linkedin.com/in/khushi-gupta
             </a>
-          </div>
+          </motion.div>
 
           {/* Phone in Canary/Amber Yellow */}
-          <div
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-30px' }}
+            transition={{ duration: 0.4, delay: 0.3 }}
+            whileHover={{ y: -4, transition: { duration: 0.2 } }}
             className={`p-6 rounded-2xl border transition-all hover:border-yellow-400/60 ${
               theme === 'dark'
                 ? 'border-slate-800 bg-[#111827]/80'
@@ -147,11 +172,11 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile, lang, t
               </div>
               <button
                 onClick={() => copyToClipboard(profile.phone, 'phone')}
-                className="text-xs font-mono text-slate-400 hover:text-yellow-400 flex items-center gap-1 transition-colors"
+                className="text-xs font-mono text-slate-400 hover:text-yellow-400 flex items-center gap-1 transition-colors cursor-pointer"
                 title={t.copyTooltip}
               >
                 {copiedField === 'phone' ? (
-                  <span className="text-yellow-400 flex items-center gap-1">
+                  <span className="text-yellow-400 flex items-center gap-1 font-semibold">
                     <Check className="w-3.5 h-3.5" />
                     Copied
                   </span>
@@ -172,10 +197,15 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile, lang, t
             >
               {profile.phone}
             </a>
-          </div>
+          </motion.div>
 
           {/* Location */}
-          <div
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-30px' }}
+            transition={{ duration: 0.4, delay: 0.4 }}
+            whileHover={{ y: -4, transition: { duration: 0.2 } }}
             className={`p-6 rounded-2xl border transition-all hover:border-blue-500/40 ${
               theme === 'dark'
                 ? 'border-slate-800 bg-[#111827]/80'
@@ -194,7 +224,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ profile, lang, t
             <p className="font-serif text-base font-semibold text-[#F8FAFC] dark:text-[#F8FAFC] text-[#0F172A] mt-1">
               {profile.location}
             </p>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

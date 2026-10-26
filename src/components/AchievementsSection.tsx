@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'motion/react';
 import { Achievement, Language, ThemeMode } from '../types/portfolio';
 import { uiTranslations } from '../data/portfolioData';
 import { Trophy, Award, Users, Star } from 'lucide-react';
@@ -54,7 +55,13 @@ export const AchievementsSection: React.FC<AchievementsSectionProps> = ({
   return (
     <section id="achievements" className="py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto border-t border-slate-800/60">
       {/* Header */}
-      <div className="flex flex-col items-start max-w-2xl text-left mb-12">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-40px' }}
+        transition={{ duration: 0.5 }}
+        className="flex flex-col items-start max-w-2xl text-left mb-12"
+      >
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-yellow-400" />
           <span className="text-xs uppercase font-mono tracking-[0.25em] text-yellow-400">
@@ -67,7 +74,7 @@ export const AchievementsSection: React.FC<AchievementsSectionProps> = ({
         <p className="mt-2 text-sm text-slate-400 font-sans">
           {t.subtitle}
         </p>
-      </div>
+      </motion.div>
 
       {/* Grid of Verified Achievements */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
@@ -76,8 +83,13 @@ export const AchievementsSection: React.FC<AchievementsSectionProps> = ({
           const Icon = cfg.icon;
 
           return (
-            <div
+            <motion.div
               key={item.id}
+              initial={{ opacity: 0, y: 25 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              whileHover={{ y: -4, transition: { duration: 0.2 } }}
               className={`p-6 sm:p-7 rounded-3xl border transition-all duration-200 flex flex-col justify-between ${cfg.hoverBorder} ${
                 theme === 'dark'
                   ? 'border-slate-800 bg-[#111827]/80'
@@ -111,7 +123,7 @@ export const AchievementsSection: React.FC<AchievementsSectionProps> = ({
                 <span>Verified Recognition</span>
                 <span className={`font-semibold ${cfg.tagColor}`}>{item.event}</span>
               </div>
-            </div>
+            </motion.div>
           );
         })}
       </div>

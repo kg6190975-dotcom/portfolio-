@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'motion/react';
 import { SkillCategory, Language, ThemeMode } from '../types/portfolio';
 import { uiTranslations } from '../data/portfolioData';
 import {
@@ -79,7 +80,13 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ categories, lang, 
   return (
     <section id="skills" className="py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto border-t border-slate-800/60">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 text-left">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-40px' }}
+        transition={{ duration: 0.5 }}
+        className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 text-left"
+      >
         <div>
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-yellow-400" />
@@ -110,13 +117,19 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ categories, lang, 
             }`}
           />
         </div>
-      </div>
+      </motion.div>
 
       {/* Category Filter Tabs */}
-      <div className="flex flex-wrap items-center gap-2 mb-10">
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-30px' }}
+        transition={{ duration: 0.4 }}
+        className="flex flex-wrap items-center gap-2 mb-10"
+      >
         <button
           onClick={() => setSelectedCat('all')}
-          className={`px-3.5 py-1.5 text-xs font-mono uppercase tracking-wider rounded-lg transition-colors ${
+          className={`px-3.5 py-1.5 text-xs font-mono uppercase tracking-wider rounded-lg transition-all ${
             selectedCat === 'all'
               ? 'bg-gradient-to-r from-red-600 via-blue-600 to-yellow-500 text-white font-semibold shadow-md'
               : theme === 'dark'
@@ -133,7 +146,7 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ categories, lang, 
             <button
               key={cat.id}
               onClick={() => setSelectedCat(cat.id)}
-              className={`px-3.5 py-1.5 text-xs font-mono uppercase tracking-wider rounded-lg transition-colors ${
+              className={`px-3.5 py-1.5 text-xs font-mono uppercase tracking-wider rounded-lg transition-all ${
                 selectedCat === cat.id
                   ? catStyle.activeTab
                   : theme === 'dark'
@@ -145,7 +158,7 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ categories, lang, 
             </button>
           );
         })}
-      </div>
+      </motion.div>
 
       {/* Grid by Categories */}
       <div className="space-y-10 text-left">
@@ -157,17 +170,29 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ categories, lang, 
           };
 
           return (
-            <div key={category.id} className="space-y-4">
+            <motion.div
+              key={category.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.5 }}
+              className="space-y-4"
+            >
               <h3 className={`text-base font-serif font-semibold tracking-wide border-b border-slate-800 pb-2 flex items-center gap-2 ${catStyle.text}`}>
                 <span>{category.title[lang]}</span>
               </h3>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                {category.skills.map((skill) => {
+                {category.skills.map((skill, sIdx) => {
                   const Icon = iconMap[skill.icon] || Sparkles;
                   return (
-                    <div
+                    <motion.div
                       key={skill.name}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: '-30px' }}
+                      transition={{ duration: 0.4, delay: sIdx * 0.05 }}
+                      whileHover={{ y: -4, transition: { duration: 0.2 } }}
                       className={`p-5 rounded-2xl border transition-all duration-200 group flex flex-col justify-between ${catStyle.border} ${
                         theme === 'dark'
                           ? 'border-slate-800/80 bg-[#111827]/70 hover:bg-[#162032]'
@@ -175,7 +200,7 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ categories, lang, 
                       }`}
                     >
                       <div>
-                        <div className={`w-10 h-10 rounded-xl ${catStyle.bg} ${catStyle.text} flex items-center justify-center mb-3 group-hover:scale-105 transition-transform`}>
+                        <div className={`w-10 h-10 rounded-xl ${catStyle.bg} ${catStyle.text} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform`}>
                           <Icon className="w-5 h-5" />
                         </div>
                         <h4 className="font-serif font-bold text-base text-[#F8FAFC] dark:text-[#F8FAFC] text-[#0F172A]">
@@ -190,11 +215,11 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ categories, lang, 
                         <span>Applied Competency</span>
                         <span className={catStyle.text}>Verified</span>
                       </div>
-                    </div>
+                    </motion.div>
                   );
                 })}
               </div>
-            </div>
+            </motion.div>
           );
         })}
       </div>

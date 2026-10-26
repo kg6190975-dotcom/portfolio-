@@ -10,6 +10,7 @@ import {
   certificationsList,
 } from './data/portfolioData';
 import { IntroAnimation } from './components/IntroAnimation';
+import { ScrollProgressBar } from './components/ScrollProgressBar';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { AboutSection } from './components/AboutSection';
@@ -23,6 +24,7 @@ import { ResumeModal } from './components/ResumeModal';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
 import { ConfigGuideModal } from './components/ConfigGuideModal';
+import { DeploymentGuideModal } from './components/DeploymentGuideModal';
 
 export default function App() {
   const [introFinished, setIntroFinished] = useState(false);
@@ -45,6 +47,7 @@ export default function App() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [resumeModalOpen, setResumeModalOpen] = useState(false);
   const [configGuideOpen, setConfigGuideOpen] = useState(false);
+  const [deployGuideOpen, setDeployGuideOpen] = useState(false);
 
   // Sync theme with document class
   useEffect(() => {
@@ -84,6 +87,9 @@ export default function App() {
           : 'bg-[#F8FAFC] text-[#0B0F19]'
       }`}
     >
+      {/* Top Tri-Color Scroll Progress Bar */}
+      <ScrollProgressBar />
+
       {/* Skippable Monogram Intro Animation */}
       {!introFinished && (
         <IntroAnimation
@@ -102,6 +108,7 @@ export default function App() {
         theme={theme}
         onToggleTheme={toggleTheme}
         onOpenResume={() => setResumeModalOpen(true)}
+        onOpenDeployGuide={() => setDeployGuideOpen(true)}
       />
 
       {/* Main Content Sections */}
@@ -112,6 +119,7 @@ export default function App() {
           lang={lang}
           theme={theme}
           onOpenResume={() => setResumeModalOpen(true)}
+          onOpenDeployGuide={() => setDeployGuideOpen(true)}
         />
 
         {/* 2. Editorial About Section */}
@@ -196,6 +204,13 @@ export default function App() {
       <ConfigGuideModal
         isOpen={configGuideOpen}
         onClose={() => setConfigGuideOpen(false)}
+        theme={theme}
+      />
+
+      {/* GitHub Pages 404 Resolution & Deployment Guide */}
+      <DeploymentGuideModal
+        isOpen={deployGuideOpen}
+        onClose={() => setDeployGuideOpen(false)}
         theme={theme}
       />
     </div>
